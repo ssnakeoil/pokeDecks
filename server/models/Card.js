@@ -1,7 +1,8 @@
-const { Schema } = require('mongoose');
+const { hash } = require('bcrypt');
+const { Schema, model } = require('mongoose');
 
 const cardSchema = new Schema({
-    title: {
+    name: {
         type: String,
         required: true,
     },
@@ -9,17 +10,28 @@ const cardSchema = new Schema({
         type: String,
         required: true,
     },
-    cardId: {
-        type: String,
-        required: true,
-    },
-    image: {
+    Id: {
         type: String,
         required: true,
     },
     link: {
         type: String,
+    },
+    rarity:{
+        type: String,
+        required: true,
+
+    },
+    images: {  
+        type: Object,    
+        required: true,
+    },
+    tcgplayer:{
+        type: Object,
+        required: true,
     }
+
 });
 
+const Card= model('Card', cardSchema);
 module.exports = cardSchema;
