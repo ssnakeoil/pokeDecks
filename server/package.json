@@ -4,21 +4,22 @@
     "description": "",
     "main": "server.js",
     "scripts": {
-      "start": "node server.js",
-      "watch": "node server.js"
+        "start": "node server.js",
+        "watch": "node server.js"
     },
     "keywords": [],
     "author": "",
     "license": "ISC",
     "dependencies": {
-      "bcrypt": "^4.0.1",
-      "jsonwebtoken": "^8.5.1",
-      "apollo-server-express": "^3.6.2",
-      "express": "^4.17.2",
-      "graphql": "^16.3.0",
-      "mongoose": "^6.1.8"  
+        "apollo-server-express": "^3.6.2",
+        "bcrypt": "^4.0.1",
+        "express": "^4.17.2",
+        "graphql": "^16.3.0",
+        "jsonwebtoken": "^8.5.1",
+        "mongoose": "^6.1.8",
+        "pokemontcgsdk": "^2.0.0"
     },
     "devDependencies": {
-      "nodemon": "^2.0.3"
+        "nodemon": "^2.0.3"
     }
-  }
+}
