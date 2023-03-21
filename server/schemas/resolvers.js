@@ -44,7 +44,31 @@ const resolvers = {
       return { token, user };
     },
     //saveCard
-    //removeCard
+    saveCard: async (parent, { card }, context) => {
+      if (context.user) {
+        const updatedUser = await User.findOneAndUpdate(
+          { _id: context.user._id },
+          { $addToSet: { savedCards: card } },
+          { new: true }
+        );
+
+        return updatedUser;
+      }
+      throw new AuthenticationError('You need to be logged in!');
+    },
+
+    removeCard: async (parent, { card }, context) => {
+      if (context.user) {
+        const updatedUser = await User.findOneAndUpdate(
+          { _id: context.user._id },
+          { $pull: { savedCards: { cardId: card.cardId } } },
+          { new: true }
+        );
+      
+        return updatedUser;
+      }
+      throw new AuthenticationError('You need to be logged in!');
+    }
   },
 };
 
