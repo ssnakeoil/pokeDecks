@@ -4,8 +4,8 @@ import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
 import './App.css';
 
-import SearchCards from './pages/SearchCards';
-import MyCollection from './pages/MyCollection';
+import SearchCard from './pages/SearchCard';
+import SaveCard from './pages/SaveCard';
 // import Navbar from './components/Navbar';
 
 // GraphQL API endpoint
@@ -40,11 +40,11 @@ function App() {
           <Routes>
             <Route 
               path="/" 
-              element={<SearchCards/>} 
+              element={<SearchCard/>} 
             />
             <Route 
               path="/saved" 
-              element={<MyCollection/>} 
+              element={<SaveCard/>} 
             />
             <Route 
               path='*' 

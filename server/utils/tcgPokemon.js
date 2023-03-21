@@ -2,7 +2,7 @@ const pokemon =require( 'pokemontcgsdk')
 
 pokemon.configure({ apiKey: process.env.POKECARD_API_KEY })
 
-const findCardbyName = async (name) => {
+exports.findCardbyName = async (name) => {
   console.log(name)
     try {
         const result = await pokemon.card.where({ q: `name:${name}` })
@@ -17,3 +17,4 @@ const findCardbyName = async (name) => {
     }
 
 }
+

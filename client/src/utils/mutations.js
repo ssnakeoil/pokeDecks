@@ -24,67 +24,67 @@ export const ADD_USER = gql`
   }
 `;
 
-export const SAVE_CARD = gql`
-  mutation saveCard($card: CardInput!) {
-    saveCard(card: $card) {
-      _id
-      username
-      email
-      savedCards {
-        _id
-        name
-        image
-        set
-        number
-        rarity
-        artist
-        tcgplayer {
-          url
-          updatedAt
-          prices {
-            holofoil {
-              low
-              mid
-              high
-              market
-              directLow
-            }
-          }
-        }
-      }
-    }
-  }
-`;
+// export const SAVE_CARD = gql`
+//   mutation saveCard($card: CardInput!) {
+//     saveCard(card: $card) {
+//       _id
+//       username
+//       email
+//       savedCards {
+//         _id
+//         name
+//         image
+//         set
+//         number
+//         rarity
+//         artist
+//         tcgplayer {
+//           url
+//           updatedAt
+//           prices {
+//             holofoil {
+//               low
+//               mid
+//               high
+//               market
+//               directLow
+//             }
+//           }
+//         }
+//       }
+//     }
+//   }
+// `;
 
-export const REMOVE_CARD = gql`
-  mutation removeCard($cardId: ID!) {
-    removeCard(cardId: $cardId) {
-      _id
-      username
-      email
-      savedCards {
-        _id
-        name
-        image
-        set
-        number
-        rarity
-        artist
-        tcgplayer {
-          url
-          updatedAt
-          prices {
-            holofoil {
-              low
-              mid
-              high
-              market
-              directLow
-            }
-          }
-        }
-      }
-    }
-  }
-`;
+// export const REMOVE_CARD = gql`
+//   mutation removeCard($cardId: ID!) {
+//     removeCard(cardId: $cardId) {
+//       _id
+//       username
+//       email
+//       savedCards {
+//         _id
+//         name
+//         image
+//         set
+//         number
+//         rarity
+//         artist
+//         tcgplayer {
+//           url
+//           updatedAt
+//           prices {
+//             holofoil {
+//               low
+//               mid
+//               high
+//               market
+//               directLow
+//             }
+//           }
+//         }
+//       }
+//     }
+//   }
+// `;
 
