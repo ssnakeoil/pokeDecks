@@ -17,5 +17,3 @@ const findCardbyName = async (name) => {
     }
 
 }
-
-module.exports = { findCardbyName }
