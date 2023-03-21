@@ -1,4 +1,4 @@
-import React, { useState, useEfgetSavedCardIdsfect } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Jumbotron,
   Container,
@@ -10,7 +10,7 @@ import {
 } from 'react-bootstrap';
 
 import { useMutation } from '@apollo/client';
-import { SAVE_BOOK } from '../utils/mutations';
+import { SAVE_CARD } from '../utils/mutations';
 import { saveCardIds, getSavedCardIds } from '../utils/localStorage';
 
 import Auth from '../utils/auth';
@@ -24,7 +24,7 @@ const SearchCards = () => {
     // create state to hold saved cardId values
     const [savedCardIds, setSavedCardIds] = useState(getSavedCardIds());
   
-    const [saveCard, { error }] = useMutation(SAVE_BOOK);
+    const [saveCard, { error }] = useMutation(SAVE_CARD);
   
     // set up useEffect hook to save `savedCardIds` list to localStorage on component unmount
     // learn more here: https://reactjs.org/docs/hooks-effect.html#effects-with-cleanup
@@ -42,7 +42,7 @@ const SearchCards = () => {
   
       try {
         const response = await fetch(
-          `https://www.googleapis.com/cards/v1/volumes?q=${searchInput}`
+          `https://api.pokemontcg.io/v2/cards?q=${searchInput}`
         );
   
         if (!response.ok) {
