@@ -1,6 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
+import { ApolloClient, InMemoryCache, ApolloProvider, createHttpLink, } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
 import './App.css';
 
@@ -9,7 +9,7 @@ import SaveCard from './pages/SaveCard';
 // import Navbar from './components/Navbar';
 
 // GraphQL API endpoint
-const httpLink = new HttpLink({
+const httpLink = new createHttpLink({
   uri: '/graphql',
 });
 

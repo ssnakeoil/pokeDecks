@@ -8,97 +8,88 @@ import {
 } from 'react-bootstrap';
 
 //getMe and deleteCard inside Utils/api
-import { getMe, deleteCard } from '../utils/api';
-import Auth from '../utils/auth';
+import { useQuery, useMutation } from '@apollo/client';
+import { QUERY_ME } from '../utils/queries';
+import { REMOVE_CARD } from '../utils/mutations';
 import { removeCardId } from '../utils/localStorage';
 
-const SaveCard = () => {
-    const [userData, setUserData] = useState({});
-    const userDataLength = Object.keys(userData).length;
+import Auth from '../utils/auth';
 
-    useEffect(() => {
-        const getUserData = async () => {
-            try {
-                const token = Auth.loggedIn() ? Auth.getToken() : null;
+const SavedCards = () => {
+  const { loading, data } = useQuery(QUERY_ME);
+  const [removeCard, { error }] = useMutation(REMOVE_CARD);
 
-                if (!token) {
-                    return false;
-                }
-                const response = await getMe(token);
-                if (!response.ok) {
-                    throw new Error('something went wrong!');
-                }
+  const userData = data?.me || {};
 
-                const user = await response.json();
-                setUserData(user);
-            } catch (err) {
-                console.error(err);
-            }
-        };
-        getUserData();
-    }, [userDataLength]);
+  // create function that accepts the card's mongo _id value as param and deletes the card from the database
+  const handleDeleteCard = async (cardId) => {
+    // get token
+    const token = Auth.loggedIn() ? Auth.getToken() : null;
 
-    const handleDeleteCard = async (cardId) => {
-        const token = Auth.loggedIn() ? Auth.getToken() : null;
-
-        if (!token) {
-            return false;
-        }
-
-        try {
-            const response = await deleteCard(cardId, token);
-            if (!response.ok) {
-                throw new Error('Something went wrong Ref:deleteCard');
-            }
-            const updatedUser = await response.json();
-            setUserData(updatedUser);
-            removeCardId(cardId);
-        } catch (err) {
-            console.error(err);
-        }
-    };
-
-    if (!userDataLength) {
-        return <h2>Loading...</h2>;
+    if (!token) {
+      return false;
     }
 
-    return (
-        <>
-            {/* insert css/className here */}
-            <div fluid className = ''>
-                <Container>
-                    <h1>Viewing Your Collection</h1>
-                </Container>
-            </div>
-            <Container>
-                {/* Title css/className */}
-                <h2 className=''>
-                    {userData.SaveCard.length
-                        ? `Viewing ${userData.SaveCard.length} saved ${userData.SaveCard.length === 1 ? 'card' : 'cards'}:`
-                        : 'You have no saved cards...'}
-                </h2>
-                <Row>
-                    {userData.SaveCard.map((card) => {
-                        return (
-                            <Col md='4'>
-                                <Card key={card.cardId}>
-                                    {card.image ? <Card.Img src={card.image} /> :null }
-                                    <Card.body>
-                                        <Card.Title>{card.title}</Card.Title>
-                                        <Card.Text>{card.description}</Card.Text>
-                                        {/* Button */}
-                                        <Button className='btn' onClick={() => handleDeleteCard(card.cardId)}>
-                                            Remove Card
-                                        </Button>
-                                    </Card.body>
-                                </Card>
-                            </Col>
-                        );
-                    })}
-                </Row>
-            </Container>
-        </>
-    )
-}
+    try {
+      const { data } = await removeCard({
+        variables: { cardId },
+      });
 
-export default SaveCard;
+      // upon success, remove card's id from localStorage
+      removeCardId(cardId);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  if (loading) {
+    return <h2>LOADING...</h2>;
+  }
+
+  return (
+    <>
+      <Jumbotron fluid className="text-light bg-dark">
+        <Container>
+          <h1>Viewing {userData.username}'s cards!</h1>
+        </Container>
+      </Jumbotron>
+      <Container>
+        <h2>
+          {userData.savedCards?.length
+            ? `Viewing ${userData.savedCards.length} saved ${
+                userData.savedCards.length === 1 ? 'card' : 'cards'
+              }:`
+            : 'You have no saved cards!'}
+        </h2>
+        <CardColumns>
+          {userData.savedCards?.map((card) => {
+            return (
+              <Card key={card.cardId} border="dark">
+                {card.image ? (
+                  <Card.Img
+                    src={card.image}
+                    alt={`The cover for ${card.title}`}
+                    variant="top"
+                  />
+                ) : null}
+                <Card.Body>
+                  <Card.Title>{card.title}</Card.Title>
+                  <p className="small">Authors: {card.authors}</p>
+                  <Card.Text>{card.description}</Card.Text>
+                  <Button
+                    className="btn-block btn-danger"
+                    onClick={() => handleDeleteCard(card.cardId)}
+                  >
+                    Delete this Card!
+                  </Button>
+                </Card.Body>
+              </Card>
+            );
+          })}
+        </CardColumns>
+      </Container>
+    </>
+  );
+};
+
+export default SavedCards;
