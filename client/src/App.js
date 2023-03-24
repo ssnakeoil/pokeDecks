@@ -6,7 +6,7 @@ import './App.css';
 
 import SearchCard from './pages/SearchCard';
 import SaveCard from './pages/SaveCard';
-// import Navbar from './components/Navbar';
+import Navbar from './components/Navbar';
 
 // GraphQL API endpoint
 const httpLink = new createHttpLink({
@@ -36,6 +36,7 @@ function App() {
     <ApolloProvider client={client}>
       <Router>
         <>
+          <Navbar />
           <Routes>
             <Route 
               path="/" 
@@ -55,5 +56,6 @@ function App() {
     </ApolloProvider>
   );
 }
+
 
 export default App;
