@@ -9,8 +9,9 @@ import {
   CardColumns,
 } from 'react-bootstrap';
 
-import { useMutation } from '@apollo/client';
+import { useMutation, useQuery } from '@apollo/client';
 import { SAVE_CARD } from '../utils/mutations';
+import { QUERY_CARDS } from '../utils/queries';
 import { saveCardIds, getSavedCardIds } from '../utils/localStorage';
 
 import Auth from '../utils/auth';
@@ -25,6 +26,8 @@ const SearchCards = () => {
     const [savedCardIds, setSavedCardIds] = useState(getSavedCardIds());
   
     const [saveCard, { error }] = useMutation(SAVE_CARD);
+
+    const [ searchCards, { loading, data }] = useQuery(QUERY_CARDS);
   
     // set up useEffect hook to save `savedCardIds` list to localStorage on component unmount
     // learn more here: https://reactjs.org/docs/hooks-effect.html#effects-with-cleanup
@@ -42,7 +45,9 @@ const SearchCards = () => {
   
       try {
         const response = await fetch(
-          `https://www.googleapis.com/cards/v1/volumes?q=${searchInput}`
+          ` https://api.pokemontcg.io/v2/cards?q=${searchInput}`
+          // GET https://api.pokemontcg.io/v2/cards/<id>
+          // GET https://api.pokemontcg.io/v2/cards
         );
   
         if (!response.ok) {
@@ -53,7 +58,6 @@ const SearchCards = () => {
   
         const cardData = items.map((card) => ({
           cardId: card.id,
-          authors: card.volumeInfo.authors || ['No author to display'],
           title: card.volumeInfo.title,
           description: card.volumeInfo.description,
           image: card.volumeInfo.imageLinks?.thumbnail || '',
