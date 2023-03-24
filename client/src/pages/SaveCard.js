@@ -1,10 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import {
+    Jumbotron,
     Container,
+    CardColumns,
     Card,
     Button,
-    Row,
-    Col
+    // Row,
+    // Col
 } from 'react-bootstrap';
 
 //getMe and deleteCard inside Utils/api
