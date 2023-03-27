@@ -12,12 +12,6 @@ const resolvers = {
         return userData;
       }
       throw new AuthenticationError('Not logged in');
-    },
-    card: async (parent, { name }) => {
-      console.log('hello')
-      const cardData= await findCardbyName(name)
-      return cardData;
-
     }
   },
   Mutation: {
@@ -43,6 +37,12 @@ const resolvers = {
       const token = signToken(user);
       return { token, user };
     },
+    cards: async (parent, { cardName }) => {
+      console.log('hello');
+      const cardData= await findCardbyName(cardName)
+      return cardData;
+
+    }
   //   //saveCard
   //   saveCard: async (parent, { card }, context) => {
   //     if (context.user) {
