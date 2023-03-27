@@ -88,3 +88,29 @@ export const REMOVE_CARD = gql`
   }
 `;
 
+export const QUERY_CARDS = gql`
+  mutation cards($cardName: String!) {
+      cards(cardName: $cardName) {
+      _id 
+      name
+      image
+      set
+      number
+      rarity
+      artist
+      tcgplayer {
+          url
+          updatedAt
+          prices {
+              holofoil {
+                  low
+                  mid
+                  high
+                  market
+                  directLow
+              }
+          }
+      }
+    }
+  }
+`;
