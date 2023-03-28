@@ -33,5 +33,6 @@ const cardSchema = new Schema({
 
 });
 
-const Card= model('Card', cardSchema);
+const Card= model('Card', cardSchema); 
 module.exports = cardSchema;
+module.exports = Card;
