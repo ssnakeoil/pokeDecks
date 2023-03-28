@@ -14,6 +14,7 @@ const typeDefs = gql`
     }
     type Query {
       me: User
+      card(name: String!): [Card]
     }
 
     type Mutation {
