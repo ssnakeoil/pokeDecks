@@ -5,7 +5,8 @@ const typeDefs = gql`
     type User {
         _id: ID!
         username: String!
-        email: String
+        email: String!
+        savedCards: [Card]
     }
 
     type Auth{
@@ -13,13 +14,17 @@ const typeDefs = gql`
         user: User
     }
     type Query {
-        me: User
-        card(name: String!): [Card]
+      me: User
+      card(name: String!): [Card]
     }
+
 
     type Mutation {
         login(email: String!, password: String!): Auth
         addUser(username: String!, email: String!, password: String!): Auth
+        cards(cardName: String!): [Card]
+        saveCard(cardId: ID!): User
+        removeCard(cardId: ID!): User
       }
 
       type Holofoil {

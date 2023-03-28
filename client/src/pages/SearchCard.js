@@ -10,7 +10,7 @@ import {
 } from 'react-bootstrap';
 
 import { useMutation } from '@apollo/client';
-import { SAVE_CARD } from '../utils/mutations';
+import { SAVE_CARD, QUERY_CARDS } from '../utils/mutations';
 import { saveCardIds, getSavedCardIds } from '../utils/localStorage';
 
 import Auth from '../utils/auth';
@@ -25,7 +25,9 @@ const SearchCards = () => {
     const [savedCardIds, setSavedCardIds] = useState(getSavedCardIds());
   
     const [saveCard, { error }] = useMutation(SAVE_CARD);
-  
+    const [getallCards] = useMutation(QUERY_CARDS);
+
+    // console.log(data);
     // set up useEffect hook to save `savedCardIds` list to localStorage on component unmount
     // learn more here: https://reactjs.org/docs/hooks-effect.html#effects-with-cleanup
     useEffect(() => {
@@ -35,35 +37,39 @@ const SearchCards = () => {
     // create method to search for cards and set state on form submit
     const handleFormSubmit = async (event) => {
       event.preventDefault();
+      const { data } = await getallCards({
+        variables: {cardName: searchInput }
+      });
   
       if (!searchInput) {
         return false;
       }
   
-      try {
-        const response = await fetch(
-          `https://api.pokemontcg.io/v2/cards?q=${searchInput}`
-        );
+      // try {
+      //   // const response = await fetch(
+      //   //   ` https://api.pokemontcg.io/v2/cards?q=${searchInput}`
+      //   //   // GET https://api.pokemontcg.io/v2/cards/<id>
+      //   //   // GET https://api.pokemontcg.io/v2/cards
+      //   // );
   
-        if (!response.ok) {
-          throw new Error('something went wrong!');
-        }
+      //   if (!response.ok) {
+      //     throw new Error('something went wrong!');
+      //   }
   
-        const { items } = await response.json();
+      //   const { items } = await response.json();
   
-        const cardData = items.map((card) => ({
-          cardId: card.id,
-          authors: card.volumeInfo.authors || ['No author to display'],
-          title: card.volumeInfo.title,
-          description: card.volumeInfo.description,
-          image: card.volumeInfo.imageLinks?.thumbnail || '',
-        }));
+      //   const cardData = items.map((card) => ({
+      //     cardId: card.id,
+      //     title: card.volumeInfo.title,
+      //     description: card.volumeInfo.description,
+      //     image: card.volumeInfo.imageLinks?.thumbnail || '',
+      //   }));
   
-        setSearchedCards(cardData);
-        setSearchInput('');
-      } catch (err) {
-        console.error(err);
-      }
+      //   setSearchedCards(cardData);
+      //   setSearchInput('');
+      // } catch (err) {
+      //   console.error(err);
+      // }
     };
   
     // create function to handle saving a card to our database
