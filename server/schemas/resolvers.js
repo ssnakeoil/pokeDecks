@@ -2,7 +2,7 @@ const { AuthenticationError } = require('apollo-server-express');
 const { User } = require('../models');
 
 const { signToken } = require('../utils/auth');
-const { findCardbyName } = require('../utils/tcgPokemon');
+const { findCardbyName, findCardById } = require('../utils/tcgPokemon');
 const resolvers = {
   Query: {
     me: async (parent, args, context) => {
@@ -44,10 +44,12 @@ const resolvers = {
       return { token, user };
     },
   //   //saveCard
-    saveCard: async (parent, { card }, context) => {
+    saveCard: async (parent, { cardId }, context) => {
       if (context.user) {
+        const card = await findCardById(cardId)
+        console.log(card)
         const updatedUser = await User.findOneAndUpdate(
-          { _id: context.user._id },
+          { _id: context?.user?._id ?? "642370fc731d177d0a31a309"},
           { $addToSet: { savedCards: card } },
           { new: true }
         );

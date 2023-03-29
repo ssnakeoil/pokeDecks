@@ -17,3 +17,14 @@ exports.findCardbyName = async (name) => {
     }
 
 }
+
+exports.findCardById = async (id) => {
+    console.log(id)
+        try {
+            const result = await pokemon.card.find(id)
+            return result
+        }
+        catch (err) {
+            console.log(err)
+        }
+}

@@ -10,7 +10,7 @@ const cardSchema = new Schema({
         type: String,
         required: true,
     },
-    Id: {
+    id: {
         type: String,
         required: true,
     },
@@ -35,4 +35,3 @@ const cardSchema = new Schema({
 
 const Card= model('Card', cardSchema); 
 module.exports = cardSchema;
-module.exports = Card;
