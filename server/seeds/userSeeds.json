@@ -1,0 +1,23 @@
+[
+    {
+        "username": "uSeRnAmE1432",
+        "email": "firstname@email.com",
+        "password": "password1"
+    },
+    {
+        "username": "othername6543",
+        "email": "secondemail@email.com",
+        "password": "wordpass3"
+    },
+    {
+        "username": "thatonename653",
+        "email": "thirdemail@email.com",
+        "password": "pAssHword5"
+
+    },
+    {
+        "username": "guywhodoes985",
+        "email": "4themail@email.com",
+        "password": "fourthpassword"
+    }
+]

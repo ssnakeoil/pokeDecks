@@ -1,6 +1,6 @@
 import { gql } from '@apollo/client';
 
-export const QUERY_ME = gql`{
+export const QUERY_ME = gql`
     me {
         _id
         username
@@ -28,8 +28,7 @@ export const QUERY_ME = gql`{
                 }
             }
         }
-    }
-},`
+    },`
 
 // export const SAVE_CARD = gql`
 //     mutation saveCard($card: CardInput!) {
