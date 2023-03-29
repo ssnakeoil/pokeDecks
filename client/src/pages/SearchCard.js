@@ -16,7 +16,6 @@ import { saveCardIds, getSavedCardIds } from '../utils/localStorage';
 import Auth from '../utils/auth';
 
 const SearchCards = () => {
-    // create state for holding returned google api data
     const [searchedCards, setSearchedCards] = useState([]);
     // create state for holding our search field data
     const [searchInput, setSearchInput] = useState('');
