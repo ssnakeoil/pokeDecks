@@ -47,7 +47,6 @@ const resolvers = {
     saveCard: async (parent, { cardId }, context) => {
       if (context.user) {
         const card = await findCardById(cardId)
-        console.log(card)
         const updatedUser = await User.findOneAndUpdate(
           { _id: context?.user?._id ?? "642370fc731d177d0a31a309"},
           { $addToSet: { savedCards: card } },
@@ -59,10 +58,11 @@ const resolvers = {
       throw new AuthenticationError('You need to be logged in!');
     },
 
-    removeCard: async (parent, { card }, context) => {
+    removeCard: async (parent, { cardId }, context) => {
       if (context.user) {
+        const card = await findCardById(cardId)
         const updatedUser = await User.findOneAndUpdate(
-          { _id: context.user._id },
+          { _id: context?.user?._id ?? "642370fc731d177d0a31a309"},
           { $pull: { savedCards: { cardId: card.cardId } } },
           { new: true }
         );

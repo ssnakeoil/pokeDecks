@@ -7,6 +7,7 @@ const typeDefs = gql`
         username: String!
         email: String!
         savedCards: [Card]
+        removedCards: [Card]
     }
 
     type Auth{
