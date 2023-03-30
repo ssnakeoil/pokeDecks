@@ -29,7 +29,7 @@ const typeDefs = gql`
       }
 
       type Holofoil {
-        low: Int
+        low: Float
         mid: Float
         high: Float
         market: Float
