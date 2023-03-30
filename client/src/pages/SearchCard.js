@@ -9,7 +9,7 @@ import {
   CardColumns,
 } from 'react-bootstrap';
 
-import { useMutation, useQuery } from '@apollo/client';
+import { useMutation, useLazyQuery } from '@apollo/client';
 import { SAVE_CARD } from '../utils/mutations';
 import { saveCardIds, getSavedCardIds } from '../utils/localStorage';
 import { QUERY_CARDS } from '../utils/queries';
@@ -21,16 +21,23 @@ const SearchCards = () => {
   const [searchInput, setSearchInput] = useState('');
   const [savedCardIds, setSavedCardIds] = useState(getSavedCardIds());
   const [saveCard, { error }] = useMutation(SAVE_CARD);
-  const { loading, data } = useQuery(QUERY_CARDS, {
-    variables: { cardName: searchInput },
-  });
-  const { loading: searchLoading, data: searchData } = useQuery(QUERY_CARDS, {
-    variables: { cardName: searchInput },
+  // const { loading, data } = useQuery(QUERY_CARDS, {
+  //   variables: { cardName: searchInput },
+  // });
+  const [ fetch, { loading: searchLoading, data: searchData} ]= useLazyQuery(QUERY_CARDS, {
+    variables: { name: searchInput },
   });
 
   useEffect(() => {
     saveCardIds(savedCardIds);
   }, [savedCardIds]);
+
+  useEffect(() => {
+    console.log(searchData);
+    if (searchData && searchData.card) {
+      setSearchedCards(searchData.card);
+    }
+  }, [searchData]);
 
   const handleFormSubmit = async (event) => {
     event.preventDefault();
@@ -38,10 +45,11 @@ const SearchCards = () => {
       return;
     }
     try {
-      if (searchData && searchData.searchCards) {
-        setSearchedCards(searchData.searchCards);
+      // if (searchData && searchData.searchCards) {
+        // setSearchedCards(searchData.searchCards);
+        fetch({ name: searchInput });
         setSearchInput('');
-      }
+      // }
     } catch (err) {
       console.error(err);
     }
@@ -99,7 +107,7 @@ const SearchCards = () => {
             ? `Viewing ${searchedCards.length} results:`
             : 'Search for a card to begin'}
         </h2>
-        <CardColumns>
+        {/* <CardColumns>
           {searchedCards.map((card) => {
             return (
               <Card key={card.cardId} border="dark">
@@ -131,7 +139,7 @@ const SearchCards = () => {
               </Card>
             );
           })}
-        </CardColumns>
+        </CardColumns> */}
       </Container>
     </>
   );
