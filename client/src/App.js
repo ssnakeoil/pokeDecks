@@ -9,9 +9,10 @@ import SaveCard from './pages/SaveCard';
 import Navbar from './components/Navbar';
 
 // GraphQL API endpoint
-const httpLink = new createHttpLink({
-  uri: '/graphql',
+const httpLink = createHttpLink({
+  uri: 'http://localhost:3001/graphql',
 });
+
 
 // Retrieve the token from local storage
 const authLink = setContext((_, { headers }) => {
@@ -25,9 +26,9 @@ const authLink = setContext((_, { headers }) => {
 });
 
 // Create a new Apollo client using the `authLink` and `httpLink` created above
+
 const client = new ApolloClient({
-  // Set up our client to execute the `authLink` middleware prior to making the request to our GraphQL API
-  link: authLink.concat(httpLink),
+  link: httpLink,
   cache: new InMemoryCache(),
 });
 

@@ -7,6 +7,7 @@ const typeDefs = gql`
         username: String!
         email: String!
         savedCards: [Card]
+        removedCards: [Card]
     }
 
     type Auth{
@@ -28,7 +29,7 @@ const typeDefs = gql`
       }
 
       type Holofoil {
-        low: Int
+        low: Float
         mid: Float
         high: Float
         market: Float
