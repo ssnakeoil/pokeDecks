@@ -24,7 +24,7 @@ const SearchCards = () => {
   // const { loading, data } = useQuery(QUERY_CARDS, {
   //   variables: { cardName: searchInput },
   // });
-  const [ fetch, { loading: searchLoading, data: searchData} ]= useLazyQuery(QUERY_CARDS, {
+  const [fetch, { loading: searchLoading, data: searchData }] = useLazyQuery(QUERY_CARDS, {
     variables: { name: searchInput },
   });
 
@@ -46,9 +46,9 @@ const SearchCards = () => {
     }
     try {
       // if (searchData && searchData.searchCards) {
-        // setSearchedCards(searchData.searchCards);
-        fetch({ name: searchInput });
-        setSearchInput('');
+      // setSearchedCards(searchData.searchCards);
+      fetch({ name: searchInput });
+      setSearchInput('');
       // }
     } catch (err) {
       console.error(err);
@@ -107,41 +107,39 @@ const SearchCards = () => {
             ? `Viewing ${searchedCards.length} results:`
             : 'Search for a card to begin'}
         </h2>
-        {/* <CardColumns>
+
+        <CardColumns>
           {searchedCards.map((card) => {
             return (
               <Card key={card.cardId} border="dark">
                 {card.image ? (
-                  <Card.Img
-                    src={card.image}
-                    alt={`The card titled: ${card.title}`}
-                    variant="top"
-                  />
+                  <Card.Img src={card.image} alt={`The card titled ${card.name}`} variant="top" />
                 ) : null}
                 <Card.Body>
-                  <Card.Title>{card.title}</Card.Title>
-                  <p className="small">Set: {card.set}</p>
-                  <Card.Text>{card.description}</Card.Text>
-                  {Auth.loggedIn() && (
-                    <Button
-                      disabled={savedCardIds?.some(
-                        (savedCardId) => savedCardId === (card.cardId)
-                      )}
-                      className="btn-block btn-info"
-                      onClick={() => handleSaveCard(card.cardId)}
-                    >
-                      {savedCardIds?.some((savedCardId) => savedCardId === card.cardId)
-                        ? 'This card has already been saved!'
-                        : 'Save this Card!'}
-                    </Button>
-                  )}
+                  <Card.Title>{card.name}</Card.Title>
+             
+                    <Card.Img src= {card.image} /> 
+            
                 </Card.Body>
+                <Card.Footer>
+                  <Button
+                    disabled={savedCardIds?.some((savedCardId) => savedCardId === card.cardId)}
+                    className='btn-block btn-info'
+                    onClick={() => handleSaveCard(card.cardId)}>
+                    {savedCardIds?.some((savedCardId) => savedCardId === card.cardId)
+                      ? 'This card has already been saved!'
+                      : 'Save This Card!'}
+                  </Button>
+                </Card.Footer>
               </Card>
+
             );
           })}
-        </CardColumns> */}
+        </CardColumns>
       </Container>
+
     </>
+
   );
 };
 
