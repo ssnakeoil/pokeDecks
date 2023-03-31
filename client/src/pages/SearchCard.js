@@ -112,14 +112,14 @@ const SearchCards = () => {
           {searchedCards.map((card) => {
             return (
               <Card key={card.cardId} border="dark">
-                {card.image ? (
-                  <Card.Img src={card.image} alt={`The card titled ${card.name}`} variant="top" />
+                {card.images.small ? (
+                  <Card.Img src={card.images.small} alt={`The card titled ${card.name}`} variant="top" />
                 ) : null}
                 <Card.Body>
                   <Card.Title>{card.name}</Card.Title>
-             
-                    <Card.Img src= {card.image} /> 
-            
+{/*              
+                    <Card.Img src= {card.images.small} />  */}
+                  
                 </Card.Body>
                 <Card.Footer>
                   <Button
