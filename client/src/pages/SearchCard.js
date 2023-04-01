@@ -16,14 +16,12 @@ import { QUERY_CARDS } from '../utils/queries';
 
 import Auth from '../utils/auth';
 
+
 const SearchCards = () => {
   const [searchedCards, setSearchedCards] = useState([]);
   const [searchInput, setSearchInput] = useState('');
   const [savedCardIds, setSavedCardIds] = useState(getSavedCardIds());
   const [saveCard, { error }] = useMutation(SAVE_CARD);
-  // const { loading, data } = useQuery(QUERY_CARDS, {
-  //   variables: { cardName: searchInput },
-  // });
   const [fetch, { loading: searchLoading, data: searchData }] = useLazyQuery(QUERY_CARDS, {
     variables: { name: searchInput },
   });
@@ -33,7 +31,6 @@ const SearchCards = () => {
   }, [savedCardIds]);
 
   useEffect(() => {
-    console.log(searchData);
     if (searchData && searchData.card) {
       setSearchedCards(searchData.card);
     }
@@ -45,11 +42,8 @@ const SearchCards = () => {
       return;
     }
     try {
-      // if (searchData && searchData.searchCards) {
-      // setSearchedCards(searchData.searchCards);
       fetch({ name: searchInput });
       setSearchInput('');
-      // }
     } catch (err) {
       console.error(err);
     }
@@ -64,15 +58,23 @@ const SearchCards = () => {
     if (!token) {
       return;
     }
+    // Check if the card is already saved
+    if (savedCardIds.includes(cardId)) {
+      console.log("This card has already been saved!");
+      return;
+    }
     try {
       await saveCard({
-        variables: { cardData: { ...cardToSave } },
+        variables: { cardData: cardToSave },
       });
       setSavedCardIds([...savedCardIds, cardToSave.cardId]);
     } catch (err) {
       console.error(err);
     }
   };
+  
+  
+
 
   return (
     <>
@@ -111,15 +113,13 @@ const SearchCards = () => {
         <CardColumns>
           {searchedCards.map((card) => {
             return (
-              <Card key={card.cardId} border="dark">
+              <Card key={`searchCards-${card.cardId || card.id}`} border="dark">
+
                 {card.images.small ? (
                   <Card.Img src={card.images.small} alt={`The card titled ${card.name}`} variant="top" />
                 ) : null}
                 <Card.Body>
                   <Card.Title>{card.name}</Card.Title>
-{/*              
-                    <Card.Img src= {card.images.small} />  */}
-                  
                 </Card.Body>
                 <Card.Footer>
                   <Button
@@ -132,9 +132,9 @@ const SearchCards = () => {
                   </Button>
                 </Card.Footer>
               </Card>
-
             );
           })}
+
         </CardColumns>
       </Container>
 

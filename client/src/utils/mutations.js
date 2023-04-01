@@ -25,65 +25,23 @@ export const ADD_USER = gql`
 `;
 
 export const SAVE_CARD = gql`
-  mutation saveCard($cardID: ID!) {
-    saveCard(cardId: $cardID) {
+  mutation SaveCard($cardId: ID!) {
+    saveCard(cardId: $cardId) {
       _id
-      username
-      email
-      savedCards {
-        id
-        name
-        image
-        set
-        number
-        rarity
-        artist
-        tcgplayer {
-          url
-          updatedAt
-          prices {
-            holofoil {
-              low
-              mid
-              high
-              market
-              directLow
-            }
-          }
-        }
+      name
+      cardId
+      images {
+        small
       }
     }
   }
 `;
 
+
 export const REMOVE_CARD = gql`
-  mutation removeCard($cardId: ID!) {
-    removeCard(cardId: $cardId) {
-      _id
-      username
-      email
-      savedCards {
-        id
-        name
-        image
-        set
-        number
-        rarity
-        artist
-        tcgplayer {
-          url
-          updatedAt
-          prices {
-            holofoil {
-              low
-              mid
-              high
-              market
-              directLow
-            }
-          }
-        }
-      }
-    }
+mutation RemoveCard($cardId: ID!) {
+  removeCard(cardId: $cardId) {
+    _id
   }
+}
 `;
