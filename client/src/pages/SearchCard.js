@@ -21,10 +21,7 @@ const SearchCards = () => {
   const [searchInput, setSearchInput] = useState('');
   const [savedCardIds, setSavedCardIds] = useState(getSavedCardIds());
   const [saveCard, { error }] = useMutation(SAVE_CARD);
-  // const { loading, data } = useQuery(QUERY_CARDS, {
-  //   variables: { cardName: searchInput },
-  // });
-  const [fetch, { loading: searchLoading, data: searchData }] = useLazyQuery(QUERY_CARDS, {
+  const [fetch, { data: searchData }] = useLazyQuery(QUERY_CARDS, {
     variables: { name: searchInput },
   });
 
@@ -45,11 +42,21 @@ const SearchCards = () => {
       return;
     }
     try {
-      // if (searchData && searchData.searchCards) {
-      // setSearchedCards(searchData.searchCards);
-      fetch({ name: searchInput });
+      const response = await fetch({ name: searchInput });
       setSearchInput('');
-      // }
+      if (!response.ok) {
+        throw new Error('something went wrong!');
+      }
+      const { items } = await response.json();
+      const cardData = items.map((card) => ({
+        cardId: card.id,
+        title: card.name,
+        image: card.tcgplayer.images.small || '',
+      }));
+
+      setSearchedCards(cardData);
+      setSearchInput('');
+
     } catch (err) {
       console.error(err);
     }
@@ -66,7 +73,7 @@ const SearchCards = () => {
     }
     try {
       await saveCard({
-        variables: { cardData: { ...cardToSave } },
+        variables: { cardID: cardToSave.id, cardData: { ...cardToSave } },
       });
       setSavedCardIds([...savedCardIds, cardToSave.cardId]);
     } catch (err) {
@@ -111,15 +118,13 @@ const SearchCards = () => {
         <CardColumns>
           {searchedCards.map((card) => {
             return (
-              <Card key={card.cardId} border="dark">
+              <Card key={card.id} border="dark">
                 {card.images.small ? (
                   <Card.Img src={card.images.small} alt={`The card titled ${card.name}`} variant="top" />
                 ) : null}
                 <Card.Body>
-                  <Card.Title>{card.name}</Card.Title>
-{/*              
-                    <Card.Img src= {card.images.small} />  */}
-                  
+                  <Card.Title>{card.name}</Card.Title>  
+                  {/* <Card.Text><a href={card.tcgplayer.url}>Link to Site</a></Card.Text>                 */}
                 </Card.Body>
                 <Card.Footer>
                   <Button

@@ -33,8 +33,12 @@ export const SAVE_CARD = gql`
       savedCards {
         id
         name
-        image
-        set
+        images {
+          small
+        }
+        set {
+          series
+        }
         number
         rarity
         artist
