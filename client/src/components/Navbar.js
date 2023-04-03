@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import { Navbar, Nav, Container, Modal, Tab } from 'react-bootstrap';
 import SignUpForm from './SignupForm';
 import LoginForm from './LoginForm';
+import pokeImg from '../images/logo.png';
+import jumbotronImg from '../images/background.jpg'
 
 import Auth from '../utils/auth';
 
@@ -12,10 +14,22 @@ const AppNavbar = () => {
 
   return (
     <>
-      <Navbar bg='dark' variant='dark' expand='lg'>
+      <Navbar bg='dark' variant='dark' expand='lg'
+                  style={{
+                    backgroundImage: `url(${jumbotronImg})`,
+                    backgroundSize: "cover",
+                    backgroundRepeat: "no-repeat",
+                    backgroundPosition: "25% 36%",
+                  }}>
         <Container fluid>
           <Navbar.Brand as={Link} to='/'>
            PokeDeck
+           <img
+          src={pokeImg}
+          width="100"
+          // height="30"
+          alt="Logo"
+        />{' '}
           </Navbar.Brand>
           <Navbar.Toggle aria-controls='navbar' />
           <Navbar.Collapse id='navbar'>

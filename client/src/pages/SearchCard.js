@@ -8,6 +8,7 @@ import {
   Card,
   CardColumns,
 } from 'react-bootstrap';
+import jumbotronImg from '../images/background.jpg'
 
 import { useMutation, useLazyQuery } from '@apollo/client';
 import { SAVE_CARD } from '../utils/mutations';
@@ -56,7 +57,9 @@ const SearchCards = () => {
   };
 
   const handleSaveCard = async (cardId) => {
-    const cardToSave = searchedCards.find((card) => card.cardId === cardId);
+    const cardToSave = searchedCards.find((card) => card.id === cardId);
+    console.log("handling save card");
+    console.log(cardToSave);
     if (!cardToSave) {
       return;
     }
@@ -66,22 +69,29 @@ const SearchCards = () => {
     }
     try {
       await saveCard({
-        variables: { cardData: { ...cardToSave } },
+        variables: { cardId: cardToSave.id },
       });
-      setSavedCardIds([...savedCardIds, cardToSave.cardId]);
+      setSavedCardIds([...savedCardIds, cardToSave.id]);
     } catch (err) {
       console.error(err);
     }
+
   };
 
   return (
     <>
-      <Jumbotron fluid className="text-light bg-dark">
+      <Jumbotron fluid className="text-light bg-dark"
+            style={{
+              backgroundImage: `url(${jumbotronImg})`,
+              backgroundSize: "cover",
+              backgroundRepeat: "no-repeat",
+              backgroundPosition: "center center",
+            }}>
         <Container>
-          <h1>Search for Cards!</h1>
+          <h1 className="text-center mb-4 text-dark">Find Your Favorite Pokemon Cards!</h1>
           <Form onSubmit={handleFormSubmit}>
             <Form.Row>
-              <Col xs={12} md={8}>
+              <Col xs={12} md={9} className="mb-2 mb-md-0">
                 <Form.Control
                   name="searchInput"
                   value={searchInput}
@@ -89,58 +99,70 @@ const SearchCards = () => {
                   type="text"
                   size="lg"
                   placeholder="Search for a card"
+                  className="shadow-none"
                 />
               </Col>
-              <Col xs={12} md={4}>
-                <Button type="submit" variant="success" size="lg">
-                  Submit
+              <Col xs={12} md={3}>
+                <Button
+                  type="submit"
+                  variant="primary"
+                  size="lg"
+                  block
+                  className="shadow-none"
+                >
+                  Search
                 </Button>
               </Col>
             </Form.Row>
           </Form>
         </Container>
       </Jumbotron>
-
+  
       <Container>
-        <h2>
+        <h2 className="text-center mb-4">
           {searchedCards.length
             ? `Viewing ${searchedCards.length} results:`
             : 'Search for a card to begin'}
         </h2>
-
+  
         <CardColumns>
           {searchedCards.map((card) => {
             return (
-              <Card key={card.cardId} border="dark">
+              <Card key={card.id} border="primary" className="mb-4">
                 {card.images.small ? (
-                  <Card.Img src={card.images.small} alt={`The card titled ${card.name}`} variant="top" />
+                  <Card.Img
+                    src={card.images.small}
+                    alt={`The card titled ${card.name}`}
+                    variant="top"
+                    className="card-img-top"
+                  />
                 ) : null}
                 <Card.Body>
-                  <Card.Title>{card.name}</Card.Title>
-{/*              
-                    <Card.Img src= {card.images.small} />  */}
-                  
-                </Card.Body>
-                <Card.Footer>
+                  <Card.Title className="text-center mb-4">
+                    {card.name}
+                  </Card.Title>
                   <Button
-                    disabled={savedCardIds?.some((savedCardId) => savedCardId === card.cardId)}
-                    className='btn-block btn-info'
-                    onClick={() => handleSaveCard(card.cardId)}>
-                    {savedCardIds?.some((savedCardId) => savedCardId === card.cardId)
+                    disabled={savedCardIds?.some(
+                      (savedCardId) => savedCardId === card.id
+                    )}
+                    onClick={() => handleSaveCard(card.id)}
+                    className="btn-primary btn-block shadow-none"
+                  >
+                    {savedCardIds?.some(
+                      (savedCardId) => savedCardId === card.id
+                    )
                       ? 'This card has already been saved!'
                       : 'Save This Card!'}
                   </Button>
-                </Card.Footer>
+                </Card.Body>
               </Card>
-
             );
           })}
         </CardColumns>
       </Container>
-
     </>
-
   );
+  
 };
 
 export default SearchCards;

@@ -25,35 +25,20 @@ export const ADD_USER = gql`
 `;
 
 export const SAVE_CARD = gql`
-  mutation saveCard($cardID: ID!) {
-    saveCard(cardId: $cardID) {
-      _id
-      username
-      email
-      savedCards {
-        id
-        name
-        image
-        set
-        number
-        rarity
-        artist
-        tcgplayer {
-          url
-          updatedAt
-          prices {
-            holofoil {
-              low
-              mid
-              high
-              market
-              directLow
-            }
-          }
-        }
+mutation SaveCard($cardId: ID!) {
+  saveCard(cardId: $cardId) {
+    
+    email
+    username
+    savedCards {
+      id
+      images {
+        small
       }
+      name
     }
   }
+}
 `;
 
 export const REMOVE_CARD = gql`

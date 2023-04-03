@@ -66,21 +66,22 @@ const SavedCards = () => {
         <CardColumns>
           {userData.savedCards?.map((card) => {
             return (
-              <Card key={card.cardId} border="dark">
-                {card.image ? (
+              <Card key={card.id} border="dark">
+                {card.images.small ? (
                   <Card.Img
-                    src={card.image}
-                    alt={`The cover for ${card.title}`}
+                    src={card.images.small}
+                    alt={`The cover for ${card.name}`}
                     variant="top"
+                    className="card-img-top"
                   />
                 ) : null}
                 <Card.Body>
                   <Card.Title>{card.title}</Card.Title>
-                  <p className="small">Authors: {card.authors}</p>
+                  <p className="small">: {card.authors}</p>
                   <Card.Text>{card.description}</Card.Text>
                   <Button
                     className="btn-block btn-danger"
-                    onClick={() => handleDeleteCard(card.cardId)}
+                    onClick={() => handleDeleteCard(card.id)}
                   >
                     Delete this Card!
                   </Button>
