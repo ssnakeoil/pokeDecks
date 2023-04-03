@@ -28,7 +28,7 @@ const authLink = setContext((_, { headers }) => {
 // Create a new Apollo client using the `authLink` and `httpLink` created above
 
 const client = new ApolloClient({
-  link: httpLink,
+  link: authLink.concat (httpLink),
   cache: new InMemoryCache(),
 });
 

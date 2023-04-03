@@ -9,7 +9,7 @@ exports.findCardbyName = async (name) => {
         // .then(result => {
         //     console.log(result.data[0].name) // "Blastoise"
         // })
-        console.log(result.data)
+        // console.log(result.data)
         return result.data
     }
     catch (err) {
