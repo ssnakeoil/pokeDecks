@@ -50,11 +50,9 @@ export const REMOVE_CARD = gql`
       savedCards {
         id
         name
-        image
-        set
-        number
-        rarity
-        artist
+        images {
+          small
+        }
         tcgplayer {
           url
           updatedAt
