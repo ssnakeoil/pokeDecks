@@ -85,9 +85,7 @@ const SavedCards = () => {
                   />
                 ) : null}
                 <Card.Body>
-                  <Card.Title>{card.title}</Card.Title>
-                  <p className="small">: {card.authors}</p>
-                  <Card.Text>{card.description}</Card.Text>
+                  <Card.Title>{card.name}</Card.Title>
                   <Button
                     className="btn-block btn-danger"
                     onClick={() => handleDeleteCard(card.id)}
