@@ -11,7 +11,8 @@ import "./App.css";
 import SearchCard from "./pages/SearchCard";
 import SaveCard from "./pages/SaveCard";
 import Navbar from "./components/Navbar";
-import pokeballBg from "./images/pokeball_bg.png";
+// import pokeballBg from "./images/pokeball_bg.png";
+import searchcard from "./images/searchcard.png";
 
 // GraphQL API endpoint
 const httpLink = createHttpLink({
@@ -37,8 +38,8 @@ const client = new ApolloClient({
 });
 
 const BG = {
-  backgroundImage: `url(${pokeballBg})`,
-  backgroundSize: "100px",
+  backgroundImage: `url(${searchcard})`,
+  backgroundSize: "100%",
   backgroundPosition: "center center",
   minHeight: "100vh",
   padding: "10px",
@@ -58,9 +59,11 @@ function App() {
     background: "black",
     backgroundPosition: "center center",
     maxWidth: "1000px",
-    padding: "10px",
+    padding: "15px",
     margin: "0 auto",
     minHeight: "50vh",
+    maxHeight: "70vh",
+    overflow: "auto",
     opacity: isHover ? "100%" : "80%",
     transition: "all 0.5s ease-in-out",
   };

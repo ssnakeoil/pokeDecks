@@ -39,4 +39,5 @@ To use this application, you can visit the website. In order to search through a
 
 ## Screenshots
 
-
+![](./client/src/images/screenshot1.png)
+![](./client/src/images/screenshot2.png)
