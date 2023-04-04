@@ -40,22 +40,24 @@ const SearchCards = () => {
     }
   }, [searchData]);
 
+  const [isLoading, setIsLoading] = useState(false);
+
   const handleFormSubmit = async (event) => {
     event.preventDefault();
     if (!searchInput) {
       return;
     }
     try {
-      // if (searchData && searchData.searchCards) {
-      // setSearchedCards(searchData.searchCards);
-      fetch({ name: searchInput });
+      setIsLoading(true); // set loading state to true
+      await fetch({ name: searchInput });
       setSearchInput('');
-      // }
     } catch (err) {
       console.error(err);
+    } finally {
+      setIsLoading(false); // set loading state back to false
     }
   };
-
+  
   const handleSaveCard = async (cardId) => {
     const cardToSave = searchedCards.find((card) => card.id === cardId);
     console.log("handling save card");
@@ -110,6 +112,7 @@ const SearchCards = () => {
                   block
                   className="shadow-none"
                 >
+                  {isLoading ? 'Loading...' : 'Search'}
                   Search
                 </Button>
               </Col>
