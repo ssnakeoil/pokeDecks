@@ -47,7 +47,7 @@ const AppNavbar = () => {
                   <Nav.Link onClick={Auth.logout} style={{color: "white"}}>Logout</Nav.Link>
                 </>
               ) : (
-                <Nav.Link onClick={() => setShowModal(true)}>Login/Sign Up</Nav.Link>
+                <Nav.Link onClick={() => setShowModal(true)} style={{color: "white"}} >Login/Sign Up</Nav.Link>
               )}
             </Nav>
           </Navbar.Collapse>
@@ -65,10 +65,10 @@ const AppNavbar = () => {
             <Modal.Title id='signup-modal'>
               <Nav variant='pills'>
                 <Nav.Item>
-                  <Nav.Link eventKey='login' style={{color: "white"}}>Login</Nav.Link>
+                  <Nav.Link eventKey='login' >Login</Nav.Link>
                 </Nav.Item>
                 <Nav.Item>
-                  <Nav.Link eventKey='signup' style={{color: "white"}}>Sign Up</Nav.Link>
+                  <Nav.Link eventKey='signup' >Sign Up</Nav.Link>
                 </Nav.Item>
               </Nav>
             </Modal.Title>
