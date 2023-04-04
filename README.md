@@ -1,6 +1,6 @@
 # PokeDeck
 
-[![My Skills](https://skillicons.dev/icons?i=js,css,apollo,mongodb,graphql&theme=light)](https://skillicons.dev)
+[![My Skills](https://skillicons.dev/icons?i=js,css,apollo,react,mongodb,graphql&theme=light)](https://skillicons.dev)
 
 ## Description
 
