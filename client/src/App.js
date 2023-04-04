@@ -64,8 +64,10 @@ function App() {
     minHeight: "50vh",
     maxHeight: "70vh",
     overflow: "auto",
-    opacity: isHover ? "100%" : "80%",
+    opacity: isHover ? "99%" : "90%",
     transition: "all 0.5s ease-in-out",
+    borderRight: "solid 10px #AC0A0A",
+    borderLeft: "solid 10px #AC0A0A",
   };
 
   return (
@@ -97,10 +99,13 @@ function App() {
             borderRadius: "0px 0px 30px 30px",
             color: "#FFF",
             display: "flex",
+            flexDirection: "column",
             justifyContent: "center",
             alignItems: "center",
           }}
-          ><a href="https://github.com/ssnakeoil/pokeDecks" style={{ color: '#FFF' }}>GitHub Repository</a></footer>
+          ><a href="https://github.com/ssnakeoil/pokeDecks" style={{ color: '#FFF' }}>Follow Our GitHub Repository!</a>
+          <p>Made with love 🖤 2023</p>
+          <p>This project was a collaboration between <a href="https://github.com/jessikea" style={{ color: '#FFF' }}>Jessica Tran</a>, <a href="https://github.com/ssnakeoil" style={{ color: '#FFF' }}>Stefi Lao</a>, <a href="https://github.com/Tochio12" style={{ color: '#FFF' }}>Tochio Herrera</a>, and <a href="https://github.com/FrancisLao9" style={{ color: '#FFF' }}>Francis Lao</a></p></footer>
           </div>
         </>
       </Router>
