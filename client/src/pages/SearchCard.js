@@ -9,7 +9,6 @@ import {
   CardColumns,
 } from "react-bootstrap";
 import jumbotronImg from "../images/background.jpg";
-
 import { useMutation, useLazyQuery } from "@apollo/client";
 import { SAVE_CARD } from "../utils/mutations";
 import { saveCardIds, getSavedCardIds } from "../utils/localStorage";
@@ -82,20 +81,24 @@ const SearchCards = () => {
     }
   };
 
+  const [isHover, setIsHover] = useState(false);
+
+  const handleMouseEnter = () => {
+     setIsHover(true);
+  };
+  const handleMouseLeave = () => {
+     setIsHover(false);
+  };
+
+  // const [clickTrue, handleClick] = useState(false);
+  // will allow us to render the card component conditionally (i.e. toggle display css)
+
   return (
+    
     <>
-      <Jumbotron
-        fluid
-        className="text-light bg-dark"
-        style={{
-          backgroundImage: `url(${jumbotronImg})`,
-          backgroundSize: "cover",
-          backgroundRepeat: "no-repeat",
-          backgroundPosition: "center center",
-        }}
-      >
+        {/* <div onClick={handleClick} style={clickTrue ? {display: "none"} : {display: "block"}}> */}
         <Container>
-          <h1 className="text-center mb-4 text-dark">
+          <h1 className="text-center mb-4 text-light">
             Find Your Favorite Pokemon Cards!
           </h1>
           <Form onSubmit={handleFormSubmit}>
@@ -120,25 +123,33 @@ const SearchCards = () => {
                   className="shadow-none"
                 >
                   {isLoading ? "Loading..." : "Search"}
-                  Search
                 </Button>
               </Col>
             </Form.Row>
           </Form>
         </Container>
-      </Jumbotron>
 
       <Container>
-        <h2 className="text-center mb-4">
+        <h2 className="text-center mb-4"
+        style={{
+          color: "white"
+        }}>
           {searchedCards.length
             ? `Viewing ${searchedCards.length} results:`
-            : "Search for a card to begin"}
+            : "Search for a card to begin..."}
         </h2>
 
         <CardColumns>
           {searchedCards.map((card) => {
             return (
-              <Card key={card.id} border="primary" className="mb-4">
+              <Card key={card.id} border="primary" className="mb-4"
+                // style={{
+                //   backgroundColor: isHover ? "black" : "white",
+                //   transition: "all 0.5s ease-in-out",
+                // }}
+                // onMouseEnter={handleMouseEnter}
+                // onMouseLeave={handleMouseLeave}
+                >
                 {card.images.small ? (
                   <Card.Img
                     src={card.images.small}
@@ -172,6 +183,7 @@ const SearchCards = () => {
           })}
         </CardColumns>
       </Container>
+      {/* </div> */}
     </>
   );
 };
