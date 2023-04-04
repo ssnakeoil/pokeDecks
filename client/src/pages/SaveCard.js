@@ -10,7 +10,7 @@ import {
 } from 'react-bootstrap';
 
 //getMe and deleteCard inside Utils/api
-import { useQuery, useMutation } from '@apollo/client';
+import { useQuery, useMutation, useApolloClient } from '@apollo/client';
 import { QUERY_ME } from '../utils/queries';
 import { REMOVE_CARD } from '../utils/mutations';
 import { removeCardId } from '../utils/localStorage';
@@ -18,6 +18,7 @@ import { removeCardId } from '../utils/localStorage';
 import Auth from '../utils/auth';
 
 const SavedCards = () => {
+  const client = useApolloClient();
   const { loading, data } = useQuery(QUERY_ME);
   const [removeCard, { error }] = useMutation(REMOVE_CARD);
 
@@ -25,20 +26,28 @@ const SavedCards = () => {
 
   // create function that accepts the card's mongo _id value as param and deletes the card from the database
   const handleDeleteCard = async (cardId) => {
-    // get token
-    const token = Auth.loggedIn() ? Auth.getToken() : null;
-
-    if (!token) {
-      return false;
-    }
-
     try {
-      const { data } = await removeCard({
+      // Call the removeCard mutation with the cardId variable
+      await removeCard({
         variables: { cardId },
       });
 
-      // upon success, remove card's id from localStorage
-      removeCardId(cardId);
+      // Get the updated user data from the cache
+      const { me } = client.readQuery({ query: QUERY_ME });
+
+      // Filter the deleted card out of the savedCards list
+      const updatedSavedCards = me.savedCards.filter((card) => card.id !== cardId);
+
+      // Write the updated data back to the cache
+      client.writeQuery({
+        query: QUERY_ME,
+        data: {
+          me: {
+            ...me,
+            savedCards: updatedSavedCards,
+          },
+        },
+      });
     } catch (err) {
       console.error(err);
     }
