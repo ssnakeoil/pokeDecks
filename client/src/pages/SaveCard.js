@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
     Jumbotron,
     Container,
@@ -19,9 +19,9 @@ import Auth from '../utils/auth';
 
 const SavedCards = () => {
   const client = useApolloClient();
-  const { loading, data } = useQuery(QUERY_ME);
+  const { loading, data, refetch } = useQuery(QUERY_ME);
   const [removeCard, { error }] = useMutation(REMOVE_CARD);
-
+  useEffect(() => { refetch() });
   const userData = data?.me || {};
 
   // create function that accepts the card's mongo _id value as param and deletes the card from the database

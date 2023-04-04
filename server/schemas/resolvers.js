@@ -65,11 +65,13 @@ const resolvers = {
 
     removeCard: async (parent, { cardId }, context) => {
       if (context.user) {
-        const card = await findCardById(cardId);
+        // const card = await findCardById(cardId);
+        console.log(cardId);
         const updatedUser = await User.findOneAndUpdate(
           { _id: context?.user?._id ?? "642370fc731d177d0a31a309" },
-          { $pull: { savedCards: { cardId: card.cardId } } },
+          { $pull: { savedCards: { id: cardId } } },
           { new: true }
+    
         );
 
         return updatedUser;
