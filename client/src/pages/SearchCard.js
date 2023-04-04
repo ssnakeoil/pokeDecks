@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 import {
   Jumbotron,
   Container,
@@ -7,27 +7,30 @@ import {
   Button,
   Card,
   CardColumns,
-} from 'react-bootstrap';
-import jumbotronImg from '../images/background.jpg'
+} from "react-bootstrap";
+import jumbotronImg from "../images/background.jpg";
 
-import { useMutation, useLazyQuery } from '@apollo/client';
-import { SAVE_CARD } from '../utils/mutations';
-import { saveCardIds, getSavedCardIds } from '../utils/localStorage';
-import { QUERY_CARDS } from '../utils/queries';
+import { useMutation, useLazyQuery } from "@apollo/client";
+import { SAVE_CARD } from "../utils/mutations";
+import { saveCardIds, getSavedCardIds } from "../utils/localStorage";
+import { QUERY_CARDS } from "../utils/queries";
 
-import Auth from '../utils/auth';
+import Auth from "../utils/auth";
 
 const SearchCards = () => {
   const [searchedCards, setSearchedCards] = useState([]);
-  const [searchInput, setSearchInput] = useState('');
+  const [searchInput, setSearchInput] = useState("");
   const [savedCardIds, setSavedCardIds] = useState(getSavedCardIds());
   const [saveCard, { error }] = useMutation(SAVE_CARD);
   // const { loading, data } = useQuery(QUERY_CARDS, {
   //   variables: { cardName: searchInput },
   // });
-  const [fetch, { loading: searchLoading, data: searchData }] = useLazyQuery(QUERY_CARDS, {
-    variables: { name: searchInput },
-  });
+  const [fetch, { loading: searchLoading, data: searchData }] = useLazyQuery(
+    QUERY_CARDS,
+    {
+      variables: { name: searchInput },
+    }
+  );
 
   useEffect(() => {
     saveCardIds(savedCardIds);
@@ -50,14 +53,14 @@ const SearchCards = () => {
     try {
       setIsLoading(true); // set loading state to true
       await fetch({ name: searchInput });
-      setSearchInput('');
+      setSearchInput("");
     } catch (err) {
       console.error(err);
     } finally {
       setIsLoading(false); // set loading state back to false
     }
   };
-  
+
   const handleSaveCard = async (cardId) => {
     const cardToSave = searchedCards.find((card) => card.id === cardId);
     console.log("handling save card");
@@ -77,20 +80,24 @@ const SearchCards = () => {
     } catch (err) {
       console.error(err);
     }
-
   };
 
   return (
     <>
-      <Jumbotron fluid className="text-light bg-dark"
-            style={{
-              backgroundImage: `url(${jumbotronImg})`,
-              backgroundSize: "cover",
-              backgroundRepeat: "no-repeat",
-              backgroundPosition: "center center",
-            }}>
+      <Jumbotron
+        fluid
+        className="text-light bg-dark"
+        style={{
+          backgroundImage: `url(${jumbotronImg})`,
+          backgroundSize: "cover",
+          backgroundRepeat: "no-repeat",
+          backgroundPosition: "center center",
+        }}
+      >
         <Container>
-          <h1 className="text-center mb-4 text-dark">Find Your Favorite Pokemon Cards!</h1>
+          <h1 className="text-center mb-4 text-dark">
+            Find Your Favorite Pokemon Cards!
+          </h1>
           <Form onSubmit={handleFormSubmit}>
             <Form.Row>
               <Col xs={12} md={9} className="mb-2 mb-md-0">
@@ -112,7 +119,7 @@ const SearchCards = () => {
                   block
                   className="shadow-none"
                 >
-                  {isLoading ? 'Loading...' : 'Search'}
+                  {isLoading ? "Loading..." : "Search"}
                   Search
                 </Button>
               </Col>
@@ -120,14 +127,14 @@ const SearchCards = () => {
           </Form>
         </Container>
       </Jumbotron>
-  
+
       <Container>
         <h2 className="text-center mb-4">
           {searchedCards.length
             ? `Viewing ${searchedCards.length} results:`
-            : 'Search for a card to begin'}
+            : "Search for a card to begin"}
         </h2>
-  
+
         <CardColumns>
           {searchedCards.map((card) => {
             return (
@@ -151,11 +158,13 @@ const SearchCards = () => {
                     onClick={() => handleSaveCard(card.id)}
                     className="btn-primary btn-block shadow-none"
                   >
-                    {savedCardIds?.some(
-                      (savedCardId) => savedCardId === card.id
-                    )
-                      ? 'This card has already been saved!'
-                      : 'Save This Card!'}
+                    {Auth.loggedIn()
+                      ? savedCardIds?.some(
+                          (savedCardId) => savedCardId === card.id
+                        )
+                        ? "This card has already been saved!"
+                        : "Save This Card!"
+                      : "Log in to save this card"}
                   </Button>
                 </Card.Body>
               </Card>
@@ -165,7 +174,6 @@ const SearchCards = () => {
       </Container>
     </>
   );
-  
 };
 
 export default SearchCards;
