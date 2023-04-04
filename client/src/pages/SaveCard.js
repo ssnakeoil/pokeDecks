@@ -59,13 +59,13 @@ const SavedCards = () => {
 
   return (
     <>
-      <Jumbotron fluid className="text-light bg-dark">
+      {/* <Jumbotron fluid className="text-light bg-dark">
         <Container>
           <h1>Viewing {userData.username}'s cards!</h1>
         </Container>
-      </Jumbotron>
+      </Jumbotron> */}
       <Container>
-        <h2>
+        <h2 style={{color: "white"}}>
           {userData.savedCards?.length
             ? `Viewing ${userData.savedCards.length} saved ${
                 userData.savedCards.length === 1 ? 'card' : 'cards'

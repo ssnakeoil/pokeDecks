@@ -14,36 +14,37 @@ const AppNavbar = () => {
 
   return (
     <>
-      <Navbar bg='dark' variant='dark' expand='lg'
-                  style={{
-                    backgroundImage: `url(${jumbotronImg})`,
-                    backgroundSize: "cover",
-                    backgroundRepeat: "no-repeat",
-                    backgroundPosition: "25% 36%",
-                  }}>
+      <Navbar
+        style={{
+          background: "#AC0A0A",
+          maxWidth: "1000px",
+          margin: "0 auto",
+          height: "150px",
+          padding: "70px",
+          borderRadius: "30px 30px 0px 0px",
+        }}
+        >
         <Container fluid>
-          <Navbar.Brand as={Link} to='/'>
-           PokeDeck
+          <Navbar.Brand as={Link} to='/' style={{color: "white"}}>
            <img
           src={pokeImg}
-          width="100"
-          // height="30"
+          width="300"
           alt="Logo"
         />{' '}
           </Navbar.Brand>
           <Navbar.Toggle aria-controls='navbar' />
           <Navbar.Collapse id='navbar'>
-            <Nav className='ml-auto'>
-              <Nav.Link as={Link} to='/'>
+            <Nav className='ml-auto' >
+              <Nav.Link as={Link} to='/' style={{color: "white"}}>
                 Search For Cards
               </Nav.Link>
               {/* if user is logged in show saved Cards and logout */}
               {Auth.loggedIn() ? (
                 <>
-                  <Nav.Link as={Link} to='/saved'>
+                  <Nav.Link as={Link} to='/saved' style={{color: "white"}}>
                     See Your Cards
                   </Nav.Link>
-                  <Nav.Link onClick={Auth.logout}>Logout</Nav.Link>
+                  <Nav.Link onClick={Auth.logout} style={{color: "white"}}>Logout</Nav.Link>
                 </>
               ) : (
                 <Nav.Link onClick={() => setShowModal(true)}>Login/Sign Up</Nav.Link>
@@ -64,10 +65,10 @@ const AppNavbar = () => {
             <Modal.Title id='signup-modal'>
               <Nav variant='pills'>
                 <Nav.Item>
-                  <Nav.Link eventKey='login'>Login</Nav.Link>
+                  <Nav.Link eventKey='login' style={{color: "white"}}>Login</Nav.Link>
                 </Nav.Item>
                 <Nav.Item>
-                  <Nav.Link eventKey='signup'>Sign Up</Nav.Link>
+                  <Nav.Link eventKey='signup' style={{color: "white"}}>Sign Up</Nav.Link>
                 </Nav.Item>
               </Nav>
             </Modal.Title>
