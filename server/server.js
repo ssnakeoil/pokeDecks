@@ -14,14 +14,35 @@ const server = new ApolloServer({
   context: authMiddleware,
 });
 
+// Step 1:
+app.use(express.static(path.resolve(__dirname, "./client/build")));
+// Step 2:
+app.get("*", function (request, response) {
+  response.sendFile(path.resolve(__dirname, "./client/build", "index.html"));
+});
+
 const { MongoClient, ServerApiVersion } = require('mongodb');
-const uri = "mongodb+srv://stefilao:<password>@pokedecks.gj4lfl2.mongodb.net/?retryWrites=true&w=majority";
+const uri = MONGODB_CONNECTION_STRING;
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
 client.connect(err => {
   const collection = client.db("test").collection("devices");
   // perform actions on the collection object
   client.close();
 });
+
+require("dotenv").config()
+
+mongoose
+ .connect(
+     process.env.MONGODB_CONNECTION_STRING,
+         {
+           useNewUrlParser: true,
+           useUnifiedTopology: true,
+         }
+ )
+ .then(() => console.log("MongoDB has been connected"))
+ .catch((err) => console.log(err));
+
 
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
