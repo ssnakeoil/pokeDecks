@@ -15,9 +15,11 @@ import Navbar from "./components/Navbar";
 import searchcard from "./images/searchcard.png";
 
 // GraphQL API endpoint
+// Retrieve the GraphQL endpoint URL from the environment variable
 const httpLink = createHttpLink({
-  uri: "http://localhost:3001/graphql",
+  uri: process.env.REACT_APP_GRAPHQL_URL,
 });
+
 
 // Retrieve the token from local storage
 const authLink = setContext((_, { headers }) => {
