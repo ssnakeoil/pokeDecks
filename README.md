@@ -1,4 +1,4 @@
-# PokeDeck
+# PokeDecks
 
 [![My Skills](https://skillicons.dev/icons?i=js,css,apollo,react,mongodb,graphql&theme=light)](https://skillicons.dev)
 
